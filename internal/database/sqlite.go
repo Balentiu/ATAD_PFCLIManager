@@ -3,7 +3,7 @@ package database
 import (
     "database/sql"
     "fmt"
-    _ "github.com/mattn/go-sqlite3" // Driver-ul SQLite
+    _ "github.com/mattn/go-sqlite3"
     "log"
 )
 

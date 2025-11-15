@@ -1,58 +1,58 @@
 package cli
 
 import (
-    "fmt"
-    "os"
-    "ATAD_PFCLIManager/internal/core/transaction"
+	"ATAD_PFCLIManager/internal/core/transaction"
+	"fmt"
+	"os"
 
-    "github.com/olekukonko/tablewriter"
-    "github.com/spf13/cobra"
+	"github.com/olekukonko/tablewriter"
+	"github.com/spf13/cobra"
 )
 
 func addListCommand(txService *transaction.Service) {
-    var listCmd = &cobra.Command{
-        Use:   "list",
-        Short: "Afișează ultimele tranzacții",
-        Run: func(cmd *cobra.Command, args []string) {
-            
-            transactions, err := txService.List()
-            if err != nil {
-                fmt.Printf("Eroare la listarea tranzacțiilor: %v\n", err)
-                return
-            }
+	var listCmd = &cobra.Command{
+		Use:   "list",
+		Short: "Afișează ultimele tranzacții",
+		Run: func(cmd *cobra.Command, args []string) {
 
-            if len(transactions) == 0 {
-                fmt.Println("Nicio tranzacție găsită. Adaugă una cu 'atad-pfcli add'.")
-                return
-            }
+			transactions, err := txService.List()
+			if err != nil {
+				fmt.Printf("Eroare la listarea tranzacțiilor: %v\n", err)
+				return
+			}
 
-            table := tablewriter.NewWriter(os.Stdout)
-            table.SetHeader([]string{"ID", "Data", "Descriere", "Suma", "Categorie"})
-            table.SetBorder(false)
-            table.SetRowLine(true)
+			if len(transactions) == 0 {
+				fmt.Println("Nicio tranzacție găsită. Adaugă una cu 'atad-pfcli add'.")
+				return
+			}
 
-            for _, tx := range transactions {
-                dataStr := tx.Date.Format("2006-01-02")
-                amountStr := fmt.Sprintf("%.2f RON", tx.Amount)
-                
-                if tx.Amount < 0 {
-                    amountStr = "\033[31m" + amountStr + "\033[0m"
-                } else {
-                    amountStr = "\033[32m" + "+" + amountStr + "\033[0m"
-                }
+			table := tablewriter.NewWriter(os.Stdout)
+			table.SetHeader([]string{"ID", "Data", "Descriere", "Suma", "Categorie"})
+			table.SetBorder(false)
+			table.SetRowLine(true)
 
-                row := []string{
-                    fmt.Sprint(tx.ID),
-                    dataStr,
-                    tx.Description,
-                    amountStr,
-                    tx.Category,
-                }
-                table.Append(row)
-            }
-            table.Render()
-        },
-    }
+			for _, tx := range transactions {
+				dataStr := tx.Date.Format("2006-01-02")
+				amountStr := fmt.Sprintf("%.2f RON", tx.Amount)
 
-    rootCmd.AddCommand(listCmd)
+				if tx.Amount < 0 {
+					amountStr = "\033[31m" + amountStr + "\033[0m"
+				} else {
+					amountStr = "\033[32m" + "+" + amountStr + "\033[0m"
+				}
+
+				row := []string{
+					fmt.Sprint(tx.ID),
+					dataStr,
+					tx.Description,
+					amountStr,
+					tx.Category,
+				}
+				table.Append(row)
+			}
+			table.Render()
+		},
+	}
+
+	rootCmd.AddCommand(listCmd)
 }

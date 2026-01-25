@@ -1,15 +1,14 @@
 package parser
 
 import (
+	"ATAD_PFCLIManager/internal/core/transaction"
 	"encoding/csv"
 	"os"
 	"strconv"
 	"time"
-	"ATAD_PFCLIManager/internal/core/transaction"
 )
 
-func ParseCSV(filePath string) ([]transaction.Transaction, error)
-{
+func ParseCSV(filePath string) ([]transaction.Transaction, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, err
@@ -24,7 +23,9 @@ func ParseCSV(filePath string) ([]transaction.Transaction, error)
 
 	var transactions []transaction.Transaction
 	for i, record := range records {
-		if i == 0 { continue }
+		if i == 0 {
+			continue
+		}
 		date, _ := time.Parse("2006-01-02", record[0])
 		amount, _ := strconv.ParseFloat(record[2], 64)
 		transactions = append(transactions, transaction.Transaction{

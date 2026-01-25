@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"ATAD_PFCLIManager/internal/core/budget"
 	"ATAD_PFCLIManager/internal/core/transaction"
 	"fmt"
 	"os"
@@ -9,7 +10,8 @@ import (
 )
 
 type AppServices struct {
-	TxService *transaction.Service
+	TxService     *transaction.Service
+	BudgetService *budget.Service
 }
 
 var rootCmd = &cobra.Command{
@@ -29,4 +31,5 @@ func SetupCommands(services AppServices) {
 	addAddCommand(services.TxService)
 	addListCommand(services.TxService)
 	addImportCommand(services.TxService)
+	addBudgetCommand(services.BudgetService)
 }

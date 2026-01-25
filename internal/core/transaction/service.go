@@ -68,3 +68,10 @@ func (s *Service) ImportTransactions(txs []Transaction) (int, error) {
 	}
 	return count, nil
 }
+
+func (s *Service) Search(query string) ([]Transaction, error) {
+	if query == "" {
+		return s.List()
+	}
+	return s.repo.SearchTransactions(query)
+}

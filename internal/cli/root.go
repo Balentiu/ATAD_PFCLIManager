@@ -35,4 +35,5 @@ func SetupCommands(services AppServices) {
 	addImportCommand(services.TxService)
 	addBudgetCommand(services.BudgetService)
 	addReportCommand(services.ReportService)
+	addSearchCommand(services.TxService)
 }

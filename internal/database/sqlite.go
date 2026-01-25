@@ -33,5 +33,16 @@ func InitDB(filepath string) (*sql.DB, error) {
 		return nil, fmt.Errorf("nu s-a putut crea tabela: %w", err)
 	}
 
+	createBudgetTableSQL := `
+	CREATE TABLE IF NOT EXISTS budgets (
+    "category" TEXT NOT NULL PRIMARY KEY,
+    "amount" REAL NOT NULL
+	);`
+
+	_, err = db.Exec(createBudgetTableSQL)
+	if err != nil {
+		return nil, fmt.Errorf("nu s-a putut crea tabela de bugete: %w", err)
+	}
+
 	return db, nil
 }

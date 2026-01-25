@@ -5,6 +5,7 @@ import (
 
 	"ATAD_PFCLIManager/internal/cli"
 	"ATAD_PFCLIManager/internal/core/budget"
+	"ATAD_PFCLIManager/internal/core/report"
 	"ATAD_PFCLIManager/internal/core/transaction"
 	"ATAD_PFCLIManager/internal/database"
 )
@@ -21,10 +22,12 @@ func main() {
 	txService := transaction.NewService(txRepo)
 	bRepo := budget.NewSQLiteRepository(db)
 	bService := budget.NewService(bRepo, txRepo)
+	repService := report.NewService(txRepo)
 
 	appServices := cli.AppServices{
 		TxService:     txService,
 		BudgetService: bService,
+		ReportService: repService,
 	}
 	cli.SetupCommands(appServices)
 
